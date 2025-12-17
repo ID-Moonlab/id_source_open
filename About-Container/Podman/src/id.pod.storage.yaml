@@ -1,0 +1,247 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-5.6.1
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    io.kubernetes.cri-o.SandboxID/id.etcd: 26013a815183c2a41b94cb2b30f960c4887aed55b6b5f089f9ad80bb746c8da9
+    io.kubernetes.cri-o.SandboxID/id.influxdb: 26013a815183c2a41b94cb2b30f960c4887aed55b6b5f089f9ad80bb746c8da9
+    io.kubernetes.cri-o.SandboxID/id.minio: 26013a815183c2a41b94cb2b30f960c4887aed55b6b5f089f9ad80bb746c8da9
+    io.kubernetes.cri-o.SandboxID/id.mongo: 26013a815183c2a41b94cb2b30f960c4887aed55b6b5f089f9ad80bb746c8da9
+    io.kubernetes.cri-o.SandboxID/id.postgres: 26013a815183c2a41b94cb2b30f960c4887aed55b6b5f089f9ad80bb746c8da9
+    io.kubernetes.cri-o.SandboxID/id.redis: 26013a815183c2a41b94cb2b30f960c4887aed55b6b5f089f9ad80bb746c8da9
+  creationTimestamp: "2025-09-14T04:26:58Z"
+  labels:
+    app: id.pod.storage
+  name: id.pod.storage
+spec:
+  containers:
+  - args:
+    - postgres
+    env:
+    - name: HTTPS_PROXY
+      value: http://127.0.0.1:7897
+    - name: TZ
+      value: PRC
+    - name: NO_PROXY
+      value: localhost;127.*;192.168.*;10.*;172.16.*;172.17.*;172.18.*;172.19.*;172.20.*;172.21.*;172.22.*;172.23.*;172.24.*;172.25.*;172.26.*;172.27.*;172.28.*;172.29.*;172.30.*;172.31.*;<local>
+    - name: HTTP_PROXY
+      value: http://127.0.0.1:7897
+    - name: POSTGRES_PASSWORD
+      value: Mickey521!
+    - name: https_proxy
+      value: http://127.0.0.1:7897
+    - name: no_proxy
+      value: localhost;127.*;192.168.*;10.*;172.16.*;172.17.*;172.18.*;172.19.*;172.20.*;172.21.*;172.22.*;172.23.*;172.24.*;172.25.*;172.26.*;172.27.*;172.28.*;172.29.*;172.30.*;172.31.*;<local>
+    - name: http_proxy
+      value: http://127.0.0.1:7897
+    image: docker.io/library/postgres:16.0
+    name: id.postgres
+    ports:
+    - containerPort: 2379
+      hostPort: 52379
+    - containerPort: 15432
+      hostPort: 55432
+    - containerPort: 6379
+      hostPort: 56379
+    - containerPort: 27017
+      hostPort: 57017
+    - containerPort: 8181
+      hostPort: 58181
+    - containerPort: 9000
+      hostPort: 59000
+    - containerPort: 9001
+      hostPort: 59001
+    securityContext:
+      privileged: true
+      procMount: Unmasked
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: opt-id.pod.storage-id.postgres-data-host-0
+    - mountPath: /var/log/postgresql
+      name: opt-id.pod.storage-id.postgres-log-host-1
+  - args:
+    - mongod
+    env:
+    - name: no_proxy
+      value: localhost;127.*;192.168.*;10.*;172.16.*;172.17.*;172.18.*;172.19.*;172.20.*;172.21.*;172.22.*;172.23.*;172.24.*;172.25.*;172.26.*;172.27.*;172.28.*;172.29.*;172.30.*;172.31.*;<local>
+    - name: HTTP_PROXY
+      value: http://127.0.0.1:7897
+    - name: http_proxy
+      value: http://127.0.0.1:7897
+    - name: TZ
+      value: PRC
+    - name: https_proxy
+      value: http://127.0.0.1:7897
+    - name: NO_PROXY
+      value: localhost;127.*;192.168.*;10.*;172.16.*;172.17.*;172.18.*;172.19.*;172.20.*;172.21.*;172.22.*;172.23.*;172.24.*;172.25.*;172.26.*;172.27.*;172.28.*;172.29.*;172.30.*;172.31.*;<local>
+    - name: HTTPS_PROXY
+      value: http://127.0.0.1:7897
+    image: docker.io/mongodb/mongodb-community-server:8.0-ubi8
+    name: id.mongo
+    securityContext:
+      privileged: true
+      procMount: Unmasked
+    volumeMounts:
+    - mountPath: /data/db
+      name: opt-id.pod.storage-id.mongo-data-host-0
+    - mountPath: /data/configdb
+      name: 4d676be2c6e69a11cdc0914131f6e083cbbef2de44f5546f618c1e1e05b8a4d2-pvc
+  - args:
+    - server
+    - /data
+    - --console-address
+    - :9001
+    env:
+    - name: https_proxy
+      value: http://127.0.0.1:7897
+    - name: TZ
+      value: PRC
+    - name: no_proxy
+      value: localhost;127.*;192.168.*;10.*;172.16.*;172.17.*;172.18.*;172.19.*;172.20.*;172.21.*;172.22.*;172.23.*;172.24.*;172.25.*;172.26.*;172.27.*;172.28.*;172.29.*;172.30.*;172.31.*;<local>
+    - name: HTTP_PROXY
+      value: http://127.0.0.1:7897
+    - name: NO_PROXY
+      value: localhost;127.*;192.168.*;10.*;172.16.*;172.17.*;172.18.*;172.19.*;172.20.*;172.21.*;172.22.*;172.23.*;172.24.*;172.25.*;172.26.*;172.27.*;172.28.*;172.29.*;172.30.*;172.31.*;<local>
+    - name: HTTPS_PROXY
+      value: http://127.0.0.1:7897
+    - name: http_proxy
+      value: http://127.0.0.1:7897
+    - name: MINIO_ROOT_USER
+      value: admin
+    - name: MINIO_ROOT_PASSWORD
+      value: Mickey521!
+    image: docker.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+    name: id.minio
+    securityContext:
+      privileged: true
+      procMount: Unmasked
+    volumeMounts:
+    - mountPath: /data
+      name: a41ae21d32344890dd527d79ec63d7f2c6150f19d9304d697204e41917b4b8b3-pvc
+  - args:
+    - etcd
+    env:
+    - name: NO_PROXY
+      value: localhost;127.*;192.168.*;10.*;172.16.*;172.17.*;172.18.*;172.19.*;172.20.*;172.21.*;172.22.*;172.23.*;172.24.*;172.25.*;172.26.*;172.27.*;172.28.*;172.29.*;172.30.*;172.31.*;<local>
+    - name: ALLOW_NONE_AUTHENTICATION
+      value: "yes"
+    - name: https_proxy
+      value: http://127.0.0.1:7897
+    - name: ETCD_DATA_DIR
+      value: /var/lib/etcd
+    - name: HTTPS_PROXY
+      value: http://127.0.0.1:7897
+    - name: HTTP_PROXY
+      value: http://127.0.0.1:7897
+    - name: no_proxy
+      value: localhost;127.*;192.168.*;10.*;172.16.*;172.17.*;172.18.*;172.19.*;172.20.*;172.21.*;172.22.*;172.23.*;172.24.*;172.25.*;172.26.*;172.27.*;172.28.*;172.29.*;172.30.*;172.31.*;<local>
+    - name: TZ
+      value: PRC
+    - name: http_proxy
+      value: http://127.0.0.1:7897
+    image: docker.io/bitnami/etcd:3.4.0
+    name: id.etcd
+    securityContext:
+      privileged: true
+      procMount: Unmasked
+      runAsNonRoot: true
+    volumeMounts:
+    - mountPath: /var/lib/etcd
+      name: opt-id.pod.storage-id.etcd-data-host-0
+  - args:
+    - redis-server
+    env:
+    - name: HTTP_PROXY
+      value: http://127.0.0.1:7897
+    - name: TZ
+      value: PRC
+    - name: https_proxy
+      value: http://127.0.0.1:7897
+    - name: NO_PROXY
+      value: localhost;127.*;192.168.*;10.*;172.16.*;172.17.*;172.18.*;172.19.*;172.20.*;172.21.*;172.22.*;172.23.*;172.24.*;172.25.*;172.26.*;172.27.*;172.28.*;172.29.*;172.30.*;172.31.*;<local>
+    - name: HTTPS_PROXY
+      value: http://127.0.0.1:7897
+    - name: no_proxy
+      value: localhost;127.*;192.168.*;10.*;172.16.*;172.17.*;172.18.*;172.19.*;172.20.*;172.21.*;172.22.*;172.23.*;172.24.*;172.25.*;172.26.*;172.27.*;172.28.*;172.29.*;172.30.*;172.31.*;<local>
+    - name: http_proxy
+      value: http://127.0.0.1:7897
+    image: docker.io/library/redis:8.0
+    name: id.redis
+    securityContext:
+      privileged: true
+      procMount: Unmasked
+    volumeMounts:
+    - mountPath: /data
+      name: opt-id.pod.storage-id.redis-data-host-0
+  - args:
+    - influxdb3
+    - serve
+    - --node-id=node0
+    - --object-store=file
+    - --data-dir=/var/lib/influxdb3/data
+    - --plugin-dir=/var/lib/influxdb3/plugin
+    env:
+    - name: http_proxy
+      value: http://127.0.0.1:7897
+    - name: https_proxy
+      value: http://127.0.0.1:7897
+    - name: TZ
+      value: PRC
+    - name: HTTPS_PROXY
+      value: http://127.0.0.1:7897
+    - name: NO_PROXY
+      value: localhost;127.*;192.168.*;10.*;172.16.*;172.17.*;172.18.*;172.19.*;172.20.*;172.21.*;172.22.*;172.23.*;172.24.*;172.25.*;172.26.*;172.27.*;172.28.*;172.29.*;172.30.*;172.31.*;<local>
+    - name: no_proxy
+      value: localhost;127.*;192.168.*;10.*;172.16.*;172.17.*;172.18.*;172.19.*;172.20.*;172.21.*;172.22.*;172.23.*;172.24.*;172.25.*;172.26.*;172.27.*;172.28.*;172.29.*;172.30.*;172.31.*;<local>
+    - name: HTTP_PROXY
+      value: http://127.0.0.1:7897
+    - name: INFLUXDB_INIT_ADMIN_TOKEN
+      value: Mickey521!
+    image: docker.io/library/influxdb:3-core
+    name: id.influxdb
+    securityContext:
+      privileged: true
+      procMount: Unmasked
+    volumeMounts:
+    - mountPath: /var/lib/influxdb3/plugin
+      name: opt-id.pod.storage-id.influx-plugin-host-0
+    - mountPath: /var/lib/influxdb3/data
+      name: opt-id.pod.storage-id.influx-data-host-1
+  volumes:
+  - name: 4d676be2c6e69a11cdc0914131f6e083cbbef2de44f5546f618c1e1e05b8a4d2-pvc
+    persistentVolumeClaim:
+      claimName: 4d676be2c6e69a11cdc0914131f6e083cbbef2de44f5546f618c1e1e05b8a4d2
+  - name: a41ae21d32344890dd527d79ec63d7f2c6150f19d9304d697204e41917b4b8b3-pvc
+    persistentVolumeClaim:
+      claimName: a41ae21d32344890dd527d79ec63d7f2c6150f19d9304d697204e41917b4b8b3
+  - hostPath:
+      path: /opt/id.pod.storage/id.etcd/data
+      type: Directory
+    name: opt-id.pod.storage-id.etcd-data-host-0
+  - hostPath:
+      path: /opt/id.pod.storage/id.redis/data
+      type: Directory
+    name: opt-id.pod.storage-id.redis-data-host-0
+  - hostPath:
+      path: /opt/id.pod.storage/id.postgres/data
+      type: Directory
+    name: opt-id.pod.storage-id.postgres-data-host-0
+  - hostPath:
+      path: /opt/id.pod.storage/id.influx/plugin
+      type: Directory
+    name: opt-id.pod.storage-id.influx-plugin-host-0
+  - hostPath:
+      path: /opt/id.pod.storage/id.influx/data
+      type: Directory
+    name: opt-id.pod.storage-id.influx-data-host-1
+  - hostPath:
+      path: /opt/id.pod.storage/id.postgres/log
+      type: Directory
+    name: opt-id.pod.storage-id.postgres-log-host-1
+  - hostPath:
+      path: /opt/id.pod.storage/id.mongo/data
+      type: Directory
+    name: opt-id.pod.storage-id.mongo-data-host-0
